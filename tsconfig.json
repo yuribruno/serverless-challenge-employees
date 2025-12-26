@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": ".build",
+    "rootDir": "./",      /* Mudamos de "src" para "./" para ele aceitar src e tests */
+    "sourceMap": true
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*"         /* Inclui a pasta de testes explicitamente */
+  ],
+  "exclude": [
+    "node_modules",
+    ".build",
+    ".serverless"
+  ]
+}
