@@ -2,7 +2,10 @@ service: serverless-challenge
 frameworkVersion: '3'
 
 custom:
-  tableName: "employees-table-${sls:stage}"
+  tableName: "employees-table-${opt:stage, 'dev'}"
+  serverless-plugin-typescript:
+    tsConfigFile: tsconfig.json
+    buildFolder: .build
 
 provider:
   name: aws
@@ -65,4 +68,6 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-        
+
+plugins:
+  - serverless-plugin-typescript

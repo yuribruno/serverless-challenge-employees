@@ -2,6 +2,7 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import { UpdateEmployeeSchema } from "../../aplication/use-cases/employees/dtos/EmployeeDto";
 import { UpdateEmployee } from "../../aplication/use-cases/employees/updateEmployee";
 import { EmployeeRepository } from "../../infra/database/repositories/employeeRepository";
+import { formatError } from "../utils/errorHandler";
 
 const repository = new EmployeeRepository();
 const updateUseCase = new UpdateEmployee(repository);
@@ -22,10 +23,6 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       body: JSON.stringify({ message: "Employee updated successfully" }),
     };
   } catch (error: any) {
-    const statusCode = error.name === 'ZodError' ? 400 : (error.message === "Employee not found" ? 404 : 500);
-    return {
-      statusCode,
-      body: JSON.stringify({ message: error.message }),
-    };
+    return formatError(error);
   }
 };

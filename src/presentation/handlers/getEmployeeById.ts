@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { GetEmployeeById } from "../../aplication/use-cases/employees/getEmployeeById";
 import { EmployeeRepository } from "../../infra/database/repositories/employeeRepository";
+import { formatError } from "../utils/errorHandler";
 
 const repository = new EmployeeRepository();
 const getUseCase = new GetEmployeeById(repository);
@@ -17,9 +18,6 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       body: JSON.stringify(employee),
     };
   } catch (error: any) {
-    return {
-      statusCode: error.message === "Employee not found" ? 404 : 400,
-      body: JSON.stringify({ message: error.message }),
-    };
+    return formatError(error);
   }
 };
