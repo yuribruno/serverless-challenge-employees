@@ -1,9 +1,14 @@
 service: serverless-challenge
+frameworkVersion: '3'
+
+custom:
+  tableName: "employees-table-${sls:stage}"
 
 provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  logRetentionInDays: 1
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -12,15 +17,39 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
         - dynamodb:Scan
-      Resource: "arn:aws:dynamodb:us-east-1:*:table/EmployeesTable"
+      Resource: 
+        - !GetAtt EmployeesTable.Arn
+  environment:
+    EMPLOYEES_TABLE: ${self:custom.tableName}
 
 functions:
   createEmployee:
     handler: src/presentation/handlers/createEmployee.handler
     events:
       - http:
-          path: employee
+          path: employees
           method: post
+          cors: true
+  getEmployeeById:
+    handler: src/presentation/handlers/getEmployeeById.handler
+    events:
+      - http:
+          path: employees/{id}
+          method: get
+          cors: true
+  updateEmployee:
+    handler: src/presentation/handlers/updateEmployee.handler
+    events:
+      - http:
+          path: employees/{id}
+          method: put
+          cors: true
+  deleteEmployee:
+    handler: src/presentation/handlers/deleteEmployee.handler
+    events:
+      - http:
+          path: employees/{id}
+          method: delete
           cors: true
         
 resources:
@@ -28,7 +57,7 @@ resources:
     EmployeesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: EmployeesTable
+        TableName: ${self:custom.tableName}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
@@ -36,3 +65,4 @@ resources:
           - AttributeName: id
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+        

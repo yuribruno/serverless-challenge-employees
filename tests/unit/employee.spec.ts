@@ -1,8 +1,8 @@
-import { CreateEmployee } from "../src/aplication/use-cases/employees/createEmployee";
-import { DeleteEmployee } from "../src/aplication/use-cases/employees/deleteEmployee";
-import { GetEmployeeById } from "../src/aplication/use-cases/employees/getEmployeeById";
-import { UpdateEmployee } from "../src/aplication/use-cases/employees/updateEmployee";
-import { mockEmployeeRepository } from "./mockEmployeeRepository";
+import { CreateEmployee } from "../../src/aplication/use-cases/employees/createEmployee";
+import { DeleteEmployee } from "../../src/aplication/use-cases/employees/deleteEmployee";
+import { GetEmployeeById } from "../../src/aplication/use-cases/employees/getEmployeeById";
+import { UpdateEmployee } from "../../src/aplication/use-cases/employees/updateEmployee";
+import { mockEmployeeRepository } from "../mockEmployeeRepository";
 
 describe('Feature: Employee Management', () => {
   let repository: any;
