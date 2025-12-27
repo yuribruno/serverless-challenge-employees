@@ -1,6 +1,8 @@
-export interface Employee {
-  id: string;
-  name: string;
-  age: number;
-  position: string;
+export class Employee {
+  constructor(
+    public readonly id: string,
+    public name: string,
+    public age: number,
+    public position: string,
+  ) {}
 }
